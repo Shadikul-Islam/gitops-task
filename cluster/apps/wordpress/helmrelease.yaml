@@ -32,7 +32,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx
-      hostname: wordpress.example.com
+      hostname: app.local
       pathType: ImplementationSpecific
       annotations:
         kubernetes.io/ingress.class: "nginx"
