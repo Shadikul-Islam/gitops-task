@@ -18,3 +18,4 @@ spec:
       service:
         type: LoadBalancer
         externalIPs: []
+      enableSnippetAnnotations: true
