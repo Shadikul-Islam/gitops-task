@@ -18,3 +18,15 @@ spec:
       service:
         type: LoadBalancer
         externalIPs: []
+      extraVolumes:
+        - name: lua-404
+          configMap:
+            name: ingress-lua-404-redirect
+      extraVolumeMounts:
+        - name: lua-404
+          mountPath: /etc/nginx/lua
+          readOnly: true
+      config:
+        lua-package-path: "/etc/nginx/lua/?.lua;;"
+        main-snippet: |
+          access_by_lua_file /etc/nginx/lua/404-redirect.lua;
