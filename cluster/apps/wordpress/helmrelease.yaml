@@ -14,25 +14,20 @@ spec:
         name: bitnami
         namespace: flux-system
   values:
-    mariadb:
-      enabled: false
     externalDatabase:
       host: mysql.mysql.svc.cluster.local
       user: wp_user
       password: MyS3cureAppPass
       database: wordpress
       port: 3306
-      # existingSecret: wordpress-db
-      # userKey: db-user
-      # passwordKey: db-password
-      # databaseKey: db-name
-      # hostKey: db-host
-    wordpressUsername: admin
-    wordpressPassword: MyS3cureWpAdmin
-    wordpressEmail: admin@example.com
-    # existingSecret: wordpress-admin
-    # existingSecretUsernameKey: wordpress-username
-    # existingSecretPasswordKey: wordpress-password
+    mariadb:
+      enabled: false
+
+    existingSecret: wordpress-admin
+    existingSecretUsernameKey: wordpress-username
+    existingSecretPasswordKey: wordpress-password
+    extraVolumes: []
+    extraVolumeMounts: [] 
 
     ingress:
       enabled: true
