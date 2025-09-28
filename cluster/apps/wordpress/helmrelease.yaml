@@ -32,6 +32,7 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx
+      hostname: app.local
       hostname: wordpress.example.com
       pathType: ImplementationSpecific
       annotations:
