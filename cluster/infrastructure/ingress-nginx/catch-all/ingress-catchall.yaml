@@ -17,8 +17,7 @@ metadata:
       }
 spec:
   rules:
-    - host: app.local
-      http:
+    - http:
         paths:
           - path: /
             pathType: Prefix

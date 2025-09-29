@@ -1,4 +1,3 @@
-# cluster/infrastructure/ingress-nginx/helmrelease.yaml (only config section)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -17,6 +16,8 @@ spec:
   values:
     controller:
       allowSnippetAnnotations: true
+      extraArgs:
+        default-backend-service: "ingress-nginx/default-http-backend"
       config:
         enable-lua: "true"
       service:
