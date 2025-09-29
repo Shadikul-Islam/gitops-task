@@ -19,8 +19,7 @@ spec:
         service:
           type: LoadBalancer
           externalIPs: []
+        config:
+          custom-http-errors: "404,403,500"  # intercept these errors
         serverSnippet: |
-          error_page 404 = @redirect_to_google;
-          location @redirect_to_google {
-              return 302 https://www.google.com;
-          }
+          error_page 404 =302 https://www.google.com;
