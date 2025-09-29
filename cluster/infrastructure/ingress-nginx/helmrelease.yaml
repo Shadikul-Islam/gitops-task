@@ -19,13 +19,9 @@ spec:
         service:
           type: LoadBalancer
           externalIPs: []
-        extraVolumes:
-          - name: lua-404
-            configMap:
-              name: ingress-lua-404-redirect
-        extraVolumeMounts:
-          - name: lua-404
-            mountPath: /etc/nginx/lua
-            readOnly: true
         serverSnippet: |
-          access_by_lua_file /etc/nginx/lua/404-redirect.lua;
+          error_page 404 = @redirect_google;
+
+          location @redirect_google {
+              return 302 https://www.google.com;
+          }
