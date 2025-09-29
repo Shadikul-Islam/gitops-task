@@ -19,8 +19,6 @@ spec:
         service:
           type: LoadBalancer
           externalIPs: []
-        config:
-          proxy-intercept-errors: "true"
         extraVolumes:
           - name: lua-404
             configMap:
@@ -30,8 +28,4 @@ spec:
             mountPath: /etc/nginx/lua
             readOnly: true
         serverSnippet: |
-          error_page 404 = @redirect_google;
-
-          location @redirect_google {
-              access_by_lua_file /etc/nginx/lua/404-redirect.lua;
-          }
+          access_by_lua_file /etc/nginx/lua/404-redirect.lua;

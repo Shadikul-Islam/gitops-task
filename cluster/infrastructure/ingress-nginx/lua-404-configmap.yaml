@@ -5,6 +5,8 @@ metadata:
   namespace: ingress-nginx
 data:
   404-redirect.lua: |
-    ngx.status = 302
-    ngx.header["Location"] = "https://www.google.com"
-    return ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
+    local uri = ngx.var.uri
+    if uri == "/" or uri:match("^/wp%-admin") or uri:match("^/wp%-login%.php") then
+        return
+    end
+    return ngx.redirect("https://www.google.com", 302)
