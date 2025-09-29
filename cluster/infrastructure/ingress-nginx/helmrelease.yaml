@@ -14,15 +14,18 @@ spec:
         name: ingress-nginx
         namespace: flux-system
   values:
-    controller:
-      enableSnippetAnnotations: true
-      config:
-        server-snippet: |
-          access_by_lua_block {
-            if ngx.status == 404 then
-              return ngx.redirect("https://www.google.com", 302)
-            end
-          }
-      service:
-        type: LoadBalancer
-        externalIPs: []
+      controller:
+        allowSnippetAnnotations: true
+        service:
+          type: LoadBalancer
+          externalIPs: []
+        extraVolumes:
+          - name: lua-404
+            configMap:
+              name: ingress-lua-404-redirect
+        extraVolumeMounts:
+          - name: lua-404
+            mountPath: /etc/nginx/lua
+            readOnly: true
+        serverSnippet: |
+          access_by_lua_file /etc/nginx/lua/404-redirect.lua;
