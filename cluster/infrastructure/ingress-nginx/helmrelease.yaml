@@ -20,7 +20,7 @@ spec:
         type: LoadBalancer
         externalIPs: []
       
-      # Add custom volumes for Lua scripts
+      # Keep the volumes for Lua scripts (but remove the duplicate lua_package_path)
       extraVolumes:
         - name: custom-lua-scripts
           configMap:
@@ -32,10 +32,9 @@ spec:
           mountPath: /etc/nginx/lua/plugins/custom/
           readOnly: true
       
-      # Configure the Lua plugin
+      # Remove the http-snippet with duplicate lua_package_path
+      # But keep the server-snippet with the Lua execution
       config:
-        http-snippet: |
-          lua_package_path "/etc/nginx/lua/plugins/custom/?.lua;;";
         server-snippet: |
           rewrite_by_lua_block {
             local redirect_404 = require("404-redirect")
