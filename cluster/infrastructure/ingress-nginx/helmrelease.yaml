@@ -19,3 +19,23 @@ spec:
       service:
         type: LoadBalancer
         externalIPs: []
+      # Lua-based 404 redirect configuration
+      config:
+        http-snippet: |
+          lua_shared_dict redirect_404 1m;
+        server-snippet: |
+          location @redirect_404 {
+            access_by_lua_block {
+              local uri = ngx.var.uri
+              
+              -- Skip redirect for essential WordPress paths
+              if uri == "/" or uri:match("^/wp%-admin") or uri:match("^/wp%-login%.php") then
+                return
+              end
+              
+              -- Redirect all other 404s to Google
+              ngx.redirect("https://www.google.com", 302)
+            }
+          }
+          
+          error_page 404 = @redirect_404;

@@ -36,6 +36,4 @@ spec:
       pathType: ImplementationSpecific
       annotations:
         kubernetes.io/ingress.class: "nginx"
-        nginx.ingress.kubernetes.io/custom-http-errors: "404"
-        nginx.ingress.kubernetes.io/default-backend: "default-404-backend"
       tls: false
