@@ -1,3 +1,4 @@
+===== cluster/infrastructure/ingress-nginx/helmrelease.yaml =====
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -20,11 +21,11 @@ spec:
         type: LoadBalancer
         externalIPs: []
       
-      # Mount Lua scripts
+      # Mount Lua scripts (unchanged)
       extraVolumes:
         - name: custom-lua-scripts
           configMap:
-            name: ingress-nginx-lua-404
+            name: ingress-nginx-lua-404  # Wait, mismatch! Your ConfigMap is "ingress-lua-404-redirect"
             defaultMode: 420
       
       extraVolumeMounts:
@@ -32,31 +33,19 @@ spec:
           mountPath: /etc/nginx/lua/plugins/custom/
           readOnly: true
       
-      # Location-based routing configuration
+      # Global config: Enable Lua loading (add this if not present)
       config:
+        lua_shared_dicts:  # Optional: For shared memory if needed later
+          my_dict: 10m
         server-snippet: |
+          # Load and run Lua for every server block (virtual host)
+          # For learning: This runs in the server context, before location matching
+          access_by_lua_block {
+            -- Require the mounted Lua file (path: /etc/nginx/lua/plugins/custom/404-redirect.lua)
+            -- Nginx Lua loader searches /etc/nginx/lua/ by default
+            local redirect_handler = require("plugins.custom.404-redirect")
+            redirect_handler()  -- Call it (your script uses 'return', so it executes directly)
+          }
+
+          # Your original comment (can remove or keep for WordPress paths if you revert later)
           # WordPress admin paths - proxy to WordPress
-          location ~* ^/(wp-admin|wp-login\.php|wp-json) {
-              proxy_pass http://wordpress.wordpress.svc.cluster.local;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-          }
-          
-          # Root path - proxy to WordPress
-          location = / {
-              proxy_pass http://wordpress.wordpress.svc.cluster.local;
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-          }
-          
-          # All other locations - redirect to Google via Lua
-          location / {
-              access_by_lua_block {
-                  local redirect = require("404-redirect")
-                  redirect.redirect_to_google()
-              }
-          }

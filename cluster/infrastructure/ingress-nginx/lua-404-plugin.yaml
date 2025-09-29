@@ -1,28 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ingress-nginx-lua-404
+  name: ingress-lua-404-redirect  # Note: Your ConfigMap name is this, but file is 404-redirect.lua
   namespace: ingress-nginx
 data:
   404-redirect.lua: |
-    local _M = {}
-    
-    function _M.redirect_to_google()
-        local uri = ngx.var.uri
-        
-        -- Log the request for debugging
-        ngx.log(ngx.INFO, "Lua processing URI: ", uri)
-        
-        -- Skip if this is a static file request (CSS, JS, images, etc.)
-        if uri:match(".*%.(css|js|jpg|jpeg|png|gif|ico|woff|woff2)$") then
-            ngx.log(ngx.INFO, "Skipping static file: ", uri)
-            return
-        end
-        
-        -- Redirect to Google for all other paths
-        ngx.log(ngx.INFO, "Redirecting to Google: ", uri)
-        ngx.redirect("https://www.google.com", 302)
-        return
-    end
-    
-    return _M
+    -- Always redirect to Google (for learning: this runs in access phase)
+    return ngx.redirect("https://www.google.com", 302)

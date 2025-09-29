@@ -36,4 +36,9 @@ spec:
       pathType: ImplementationSpecific
       annotations:
         kubernetes.io/ingress.class: "nginx"
+        # New: Lua redirect only for this Ingress (server block)
+        nginx.ingress.kubernetes.io/server-snippet: |
+          access_by_lua_block {
+            require("plugins.custom.404-redirect")()
+          }
       tls: false
