@@ -1,4 +1,3 @@
-# cluster/apps/wordpress/helmrelease.yaml (only the ingress section changes)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -27,22 +26,13 @@ spec:
     existingSecret: wordpress-admin
     existingSecretUsernameKey: wordpress-username
     existingSecretPasswordKey: wordpress-password
-    extraVolumes: []
-    extraVolumeMounts: [] 
 
     ingress:
       enabled: true
       ingressClassName: nginx
-      hostname: app.local
-      pathType: ImplementationSpecific
+      hostname: wordpress.local
       annotations:
-        kubernetes.io/ingress.class: "nginx"
-        # NEW: Safe server-level redirect (runs before any location / {})
-        # Learning: 'return ngx.redirect' is Lua (OpenResty) - aborts request early, no backend hit
-        nginx.ingress.kubernetes.io/server-snippet: |
-          # Global redirect for this host (app.local) - intercepts all paths
+        nginx.ingress.kubernetes.io/configuration-snippet: |
           access_by_lua_block {
-            -- Simple unconditional redirect (no require() - embedded for safety)
             return ngx.redirect("https://www.google.com", 302)
           }
-      tls: false

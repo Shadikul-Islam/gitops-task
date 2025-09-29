@@ -17,27 +17,8 @@ spec:
   values:
     controller:
       allowSnippetAnnotations: true
+      config:
+        enable-lua: "true"
       service:
         type: LoadBalancer
         externalIPs: []
-      
-      # Mount Lua scripts (keep for later, but fix name mismatch below)
-      extraVolumes:
-        - name: custom-lua-scripts
-          configMap:
-            name: ingress-lua-404-redirect  # FIXED: Match your actual ConfigMap name
-            defaultMode: 420
-      
-      extraVolumeMounts:
-        - name: custom-lua-scripts
-          mountPath: /etc/nginx/lua/plugins/custom/
-          readOnly: true
-      
-      # FIXED: Remove incomplete snippet - no global Lua for now (avoids broad conflicts)
-      config:
-        # Optional: Enable Lua shared dict if needed later
-        lua_shared_dicts:
-          my_dict: 10m
-        server-snippet: |
-          # Empty or add global non-Lua stuff here later (e.g., custom headers)
-          # Removed: WordPress comment and access_by_lua_block to prevent duplicates
