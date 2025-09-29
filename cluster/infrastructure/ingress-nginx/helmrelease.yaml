@@ -15,7 +15,14 @@ spec:
         namespace: flux-system
   values:
     controller:
+      enableSnippetAnnotations: true
+      config:
+        server-snippet: |
+          access_by_lua_block {
+            if ngx.status == 404 then
+              return ngx.redirect("https://www.google.com", 302)
+            end
+          }
       service:
         type: LoadBalancer
         externalIPs: []
-      # enableSnippetAnnotations: true
