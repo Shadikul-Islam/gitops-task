@@ -1,9 +1,10 @@
+# cluster/infrastructure/ingress-nginx/lua-404-configmap.yaml (update for consistency)
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ingress-lua-404-redirect  # Note: Your ConfigMap name is this, but file is 404-redirect.lua
+  name: ingress-lua-404-redirect
   namespace: ingress-nginx
 data:
   404-redirect.lua: |
-    -- Always redirect to Google (for learning: this runs in access phase)
+    -- Simple redirect (matches embedded version)
     return ngx.redirect("https://www.google.com", 302)

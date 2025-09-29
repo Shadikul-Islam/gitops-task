@@ -1,4 +1,4 @@
-===== cluster/infrastructure/ingress-nginx/helmrelease.yaml =====
+# cluster/infrastructure/ingress-nginx/helmrelease.yaml (only config section)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -21,11 +21,11 @@ spec:
         type: LoadBalancer
         externalIPs: []
       
-      # Mount Lua scripts (unchanged)
+      # Mount Lua scripts (keep for later, but fix name mismatch below)
       extraVolumes:
         - name: custom-lua-scripts
           configMap:
-            name: ingress-nginx-lua-404  # Wait, mismatch! Your ConfigMap is "ingress-lua-404-redirect"
+            name: ingress-lua-404-redirect  # FIXED: Match your actual ConfigMap name
             defaultMode: 420
       
       extraVolumeMounts:
@@ -33,19 +33,11 @@ spec:
           mountPath: /etc/nginx/lua/plugins/custom/
           readOnly: true
       
-      # Global config: Enable Lua loading (add this if not present)
+      # FIXED: Remove incomplete snippet - no global Lua for now (avoids broad conflicts)
       config:
-        lua_shared_dicts:  # Optional: For shared memory if needed later
+        # Optional: Enable Lua shared dict if needed later
+        lua_shared_dicts:
           my_dict: 10m
         server-snippet: |
-          # Load and run Lua for every server block (virtual host)
-          # For learning: This runs in the server context, before location matching
-          access_by_lua_block {
-            -- Require the mounted Lua file (path: /etc/nginx/lua/plugins/custom/404-redirect.lua)
-            -- Nginx Lua loader searches /etc/nginx/lua/ by default
-            local redirect_handler = require("plugins.custom.404-redirect")
-            redirect_handler()  -- Call it (your script uses 'return', so it executes directly)
-          }
-
-          # Your original comment (can remove or keep for WordPress paths if you revert later)
-          # WordPress admin paths - proxy to WordPress
+          # Empty or add global non-Lua stuff here later (e.g., custom headers)
+          # Removed: WordPress comment and access_by_lua_block to prevent duplicates

@@ -1,3 +1,4 @@
+# cluster/apps/wordpress/helmrelease.yaml (only the ingress section changes)
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
@@ -36,9 +37,12 @@ spec:
       pathType: ImplementationSpecific
       annotations:
         kubernetes.io/ingress.class: "nginx"
-        # New: Lua redirect only for this Ingress (server block)
+        # NEW: Safe server-level redirect (runs before any location / {})
+        # Learning: 'return ngx.redirect' is Lua (OpenResty) - aborts request early, no backend hit
         nginx.ingress.kubernetes.io/server-snippet: |
+          # Global redirect for this host (app.local) - intercepts all paths
           access_by_lua_block {
-            require("plugins.custom.404-redirect")()
+            -- Simple unconditional redirect (no require() - embedded for safety)
+            return ngx.redirect("https://www.google.com", 302)
           }
       tls: false
