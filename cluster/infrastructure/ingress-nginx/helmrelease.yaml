@@ -19,23 +19,28 @@ spec:
       service:
         type: LoadBalancer
         externalIPs: []
-      # Lua-based 404 redirect configuration
+      
+      # Add custom volumes for Lua scripts
+      extraVolumes:
+        - name: custom-lua-scripts
+          configMap:
+            name: ingress-nginx-lua-404
+            defaultMode: 420
+      
+      extraVolumeMounts:
+        - name: custom-lua-scripts
+          mountPath: /etc/nginx/lua/plugins/custom/
+          readOnly: true
+      
+      # Configure the Lua plugin
       config:
         http-snippet: |
-          lua_shared_dict redirect_404 1m;
+          lua_package_path "/etc/nginx/lua/plugins/custom/?.lua;;";
         server-snippet: |
-          location @redirect_404 {
-            access_by_lua_block {
-              local uri = ngx.var.uri
-              
-              -- Skip redirect for essential WordPress paths
-              if uri == "/" or uri:match("^/wp%-admin") or uri:match("^/wp%-login%.php") then
-                return
-              end
-              
-              -- Redirect all other 404s to Google
-              ngx.redirect("https://www.google.com", 302)
-            }
+          rewrite_by_lua_block {
+            local redirect_404 = require("404-redirect")
+            local ok, err = pcall(redirect_404.redirect_404)
+            if not ok then
+              ngx.log(ngx.ERR, "Error in 404 redirect Lua script: ", err)
+            end
           }
-          
-          error_page 404 = @redirect_404;

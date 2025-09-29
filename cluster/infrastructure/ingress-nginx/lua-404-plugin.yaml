@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-nginx-lua-404
+  namespace: ingress-nginx
+data:
+  404-redirect.lua: |
+    local _M = {}
+    
+    function _M.redirect_404()
+        local uri = ngx.var.uri
+        ngx.log(ngx.INFO, "Checking 404 redirect for URI: ", uri)
+        
+        -- Skip redirect for essential WordPress paths
+        if uri == "/" or uri:match("^/wp%-admin") or uri:match("^/wp%-login%.php") or uri:match("^/wp%-json") then
+            ngx.log(ngx.INFO, "Skipping redirect for WordPress path: ", uri)
+            return
+        end
+        
+        -- Only redirect if we have a 404 status
+        if ngx.status == 404 then
+            ngx.log(ngx.INFO, "Redirecting 404 to Google: ", uri)
+            ngx.redirect("https://www.google.com", 302)
+        end
+    end
+    
+    return _M
