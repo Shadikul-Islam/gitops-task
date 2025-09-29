@@ -4,4 +4,3 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - wp-secret.enc.yaml
-  - lua-ingress.yaml
