@@ -39,8 +39,8 @@ spec:
         kubernetes.io/ingress.class: "nginx"
         nginx.ingress.kubernetes.io/proxy-intercept-errors: "true"
         nginx.ingress.kubernetes.io/server-snippet: |
-          error_page 404 = @redirect_to_google;
-          location @redirect_to_google {
+          error_page 404 = /redirect-404;
+          location /redirect-404 {
             return 302 https://www.google.com;
           }
       tls: false
