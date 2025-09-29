@@ -36,8 +36,6 @@ spec:
       hostname: app.local
       pathType: ImplementationSpecific
       annotations:
-        nginx.ingress.kubernetes.io/proxy-intercept-errors: "true"
-        nginx.ingress.kubernetes.io/custom-http-errors: "404"
         nginx.ingress.kubernetes.io/configuration-snippet: |
           error_page 404 =302 https://www.google.com;
       tls: false

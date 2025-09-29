@@ -20,6 +20,6 @@ spec:
           type: LoadBalancer
           externalIPs: []
         config:
-          custom-http-errors: "404,403,500"  # intercept these errors
+          custom-http-errors: "404"
         serverSnippet: |
           error_page 404 =302 https://www.google.com;
