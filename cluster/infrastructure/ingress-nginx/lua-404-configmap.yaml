@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ingress-lua-404-redirect
+  namespace: ingress-nginx
+data:
+  404-redirect.lua: |
+    ngx.status = 302
+    ngx.header["Location"] = "https://www.google.com"
+    return ngx.exit(ngx.HTTP_MOVED_TEMPORARILY)
