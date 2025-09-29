@@ -18,6 +18,7 @@ spec:
       allowSnippetAnnotations: true
       extraArgs:
         default-backend-service: "ingress-nginx/default-http-backend"
+        enable-underscores-in-headers: "true"
       config:
         enable-lua: "true"
       service:
