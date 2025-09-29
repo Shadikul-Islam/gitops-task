@@ -30,9 +30,5 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx
-      hostname: wordpress.local
-      annotations:
-        nginx.ingress.kubernetes.io/configuration-snippet: |
-          access_by_lua_block {
-            return ngx.redirect("https://www.google.com", 302)
-          }
+      hostname: app.local
+      annotations: {}
