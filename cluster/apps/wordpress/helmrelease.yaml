@@ -29,12 +29,3 @@ spec:
       enabled: true
       ingressClassName: nginx
       hostname: app.local
-      annotations:
-        nginx.ingress.kubernetes.io/server-snippet: |
-          error_page 404 = @redirect_to_google;
-        nginx.ingress.kubernetes.io/configuration-snippet: |
-          location @redirect_to_google {
-            access_by_lua_block {
-              return ngx.redirect("https://www.google.com", 302)
-            }
-          }
