@@ -29,3 +29,7 @@ spec:
       enabled: true
       ingressClassName: nginx
       hostname: app.local
+      pathType: ImplementationSpecific
+      annotations:
+        kubernetes.io/ingress.class: "nginx"
+      tls: false
