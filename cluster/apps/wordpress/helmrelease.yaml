@@ -25,11 +25,3 @@ spec:
     existingSecret: wordpress-admin
     existingSecretUsernameKey: wordpress-username
     existingSecretPasswordKey: wordpress-password
-    ingress:
-      enabled: true
-      ingressClassName: nginx
-      hostname: app.local
-      pathType: ImplementationSpecific
-      annotations:
-        kubernetes.io/ingress.class: "nginx"
-      tls: false
