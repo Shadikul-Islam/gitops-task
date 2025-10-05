@@ -8,7 +8,7 @@ metadata:
     nginx.ingress.kubernetes.io/use-regex: "true"
     nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/configuration-snippet: |
-      if ($uri !~ ^(/$|/index\.php$|/wp-admin(/.*)?$|/wp-login(/.*)?$|/wp-login\.php$|/wp-content(/.*)?$|/wp-includes(/.*)?$|/wp-json(/.*)?$|/wp-admin/admin-ajax.php$)) {
+      if ($uri !~ ^(/$|/index\.php$|/wp-admin(/.*)?$|/wp-login\.php$|/wp-content(/.*)?$|/wp-includes(/.*)?$|/wp-json(/.*)?$|/wp-admin/admin-ajax.php$)) {
         return 404;
       }
 spec:
