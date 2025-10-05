@@ -29,4 +29,3 @@ spec:
       enabled: true
       ingressClassName: nginx
       hostname: app.local
-      annotations: {}
