@@ -23,4 +23,4 @@ spec:
         enable-lua: "true"
       service:
         type: LoadBalancer
-        externalIPs: []
+        externalIPs: [] 
