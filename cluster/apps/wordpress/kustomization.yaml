@@ -5,3 +5,4 @@ resources:
   - namespace.yaml
   - wp-secret.enc.yaml
   - ingress-routing.yaml
+  - default-backend.yaml
