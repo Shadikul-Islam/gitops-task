@@ -28,4 +28,4 @@ spec:
     ingress:
       enabled: true
       ingressClassName: nginx
-      hostname: app.local
+      hostname: app.local 
