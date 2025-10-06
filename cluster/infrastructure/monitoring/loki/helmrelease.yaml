@@ -15,12 +15,18 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: loki
-    replicaCount: 1
     deploymentMode: single
     persistence:
       enabled: false
+
     loki:
       auth_enabled: false
+      useTestSchema: true
       server:
         http_listen_port: 3100
-      useTestSchema: true
+      storage:
+        type: filesystem
+        bucketNames:
+          chunks: loki-chunks
+          ruler: loki-ruler
+          admin: loki-admin
