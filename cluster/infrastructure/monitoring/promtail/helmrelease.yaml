@@ -24,6 +24,23 @@ spec:
       snippets:
         journal: {}
       lokiAddress: http://loki.monitoring.svc.cluster.local:3100
+      scrape_configs:
+        - job_name: wordpress
+          static_configs:
+            - targets:
+                - localhost
+              labels:
+                app: wordpress
+                namespace: wordpress
+                __path__: /var/log/containers/*wordpress*.log
+        - job_name: ingress-nginx
+          static_configs:
+            - targets:
+                - localhost
+              labels:
+                app: ingress-nginx
+                namespace: ingress-nginx
+                __path__: /var/log/containers/*ingress-nginx-controller*.log
     extraArgs: []
     serviceAccount:
       create: true
