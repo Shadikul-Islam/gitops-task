@@ -20,17 +20,6 @@ data:
             }
           ],
           "gridPos": {"h":13,"w":24,"x":0,"y":0}
-        },
-        {
-          "type": "logs",
-          "title": "Ingress-NGINX Logs",
-          "targets": [
-            {
-              "expr": "{app=\"ingress-nginx\"}"
-            }
-          ],
-          "gridPos": {"h":13,"w":24,"x":0,"y":13}
         }
       ]
     }
-
