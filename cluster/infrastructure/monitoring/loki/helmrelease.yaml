@@ -19,7 +19,7 @@ spec:
     deploymentMode: single
     persistence:
       enabled: false
-    config:
+    loki:
       auth_enabled: false
       server:
         http_listen_port: 3100
