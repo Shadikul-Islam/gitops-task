@@ -4,5 +4,4 @@ resources:
   - helmrelease.yaml
   - namespace.yaml
   - wp-secret.enc.yaml
-  - default-backend.yaml
   - ingress.yaml
