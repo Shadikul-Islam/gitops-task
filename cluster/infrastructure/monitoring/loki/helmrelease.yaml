@@ -15,7 +15,7 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: loki
-    deploymentMode: single
+    deploymentMode: SingleBinary
     persistence:
       enabled: false
 
