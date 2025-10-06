@@ -8,7 +8,7 @@ metadata:
 data:
   ingress-nginx-dashboard.json: |
     {
-      "id": 2,
+      "id": null,
       "title": "Ingress-NGINX Logs",
       "panels": [
         {
