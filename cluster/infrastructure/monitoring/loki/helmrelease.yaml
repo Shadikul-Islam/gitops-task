@@ -16,7 +16,7 @@ spec:
   values:
     fullnameOverride: loki
 
-    # The correct location for deploymentMode is under top-level, NOT under loki:
+    # Loki should run as a single binary, no distributed components
     deploymentMode: SingleBinary
 
     persistence:
@@ -61,3 +61,10 @@ spec:
         requests:
           cpu: 100m
           memory: 128Mi
+
+    backend:
+      replicas: 0
+    read:
+      replicas: 0
+    write:
+      replicas: 0
