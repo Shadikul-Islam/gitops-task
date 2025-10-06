@@ -8,7 +8,7 @@ metadata:
 data:
   wordpress-dashboard.json: |
     {
-      "id": null,
+      "id": 1,
       "title": "WordPress Logs",
       "panels": [
         {
