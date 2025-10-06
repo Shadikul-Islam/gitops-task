@@ -15,10 +15,7 @@ spec:
         namespace: flux-system
   values:
     fullnameOverride: loki
-
-    # Loki should run as a single binary, no distributed components
     deploymentMode: SingleBinary
-
     persistence:
       enabled: false
 
@@ -26,6 +23,8 @@ spec:
       auth_enabled: false
       commonConfig:
         replication_factor: 1
+      limits_config:
+        allow_structured_metadata: true
       storage:
         type: filesystem
         filesystem:
