@@ -19,7 +19,7 @@ data:
               "expr": "{app=\"wordpress\"}"
             }
           ],
-          "gridPos": {"h":14,"w":24,"x":0,"y":0}
+          "gridPos": {"h":13,"w":24,"x":0,"y":0}
         }
       ]
     }
